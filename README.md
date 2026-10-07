@@ -100,12 +100,25 @@ Use both views together: first locate the time window and dominant wait type, th
 
 ```mermaid
 flowchart LR
-    A["Identify the workload spike"] --> B["Select the time window"]
-    B --> C["Analyze the wait class"]
-    C --> D["Filter and sort Top Queries"]
-    D --> E["Open query details"]
-    E --> F["Validate plan, indexes, and SQL"]
-    F --> G["Apply the fix and compare"]
+    subgraph OBSERVE["Observe workload"]
+        A["Identify workload spike"]
+        B["Select time window"]
+        C["Analyze wait class"]
+        A --> B --> C
+    end
+    subgraph INVESTIGATE["Investigate queries"]
+        D["Filter and sort Top Queries"]
+        E["Open query details"]
+        F["Validate plan, indexes and SQL"]
+        D --> E --> F
+    end
+    subgraph VALIDATE["Validate the change"]
+        G["Apply the fix"]
+        H["Compare performance<br/>over equivalent time windows"]
+        G --> H
+    end
+    C --> D
+    F --> G
 ```
 
 ## Average Active Sessions
